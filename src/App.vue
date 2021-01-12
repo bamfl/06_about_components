@@ -1,15 +1,42 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container pt-1">
+    <div class="card">
+      <h2>Новости {{ date }}</h2>
+      <span>Открыто {{ openRate }} раз</span>
+    </div>
+    <div class="card">
+      <NewsItem
+        v-for="item in news" :key="item.id"
+        :title="item.title"
+        :id="item.id"
+        :is-open="item.isOpen"
+        @rate-click="rateChange"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import NewsItem from '@/components/NewsItem'
 
 export default {
-  name: 'App',
+  data () {
+    return {
+      date: new Date().toLocaleDateString(),
+      news: [
+        { id: 1, title: 'Джо победил в США', isOpen: false },
+        { id: 2, title: 'Vue набирает обороты', isOpen: false }
+      ],
+      openRate: 0
+    }
+  },
   components: {
-    HelloWorld
+    NewsItem
+  },
+  methods: {
+    rateChange () {
+      this.openRate++
+    }
   }
 }
 </script>
