@@ -1,17 +1,23 @@
 <template>
   <h3>{{ title }}</h3>
-  <button class="btn" @click="open">{{ isOpenLocal ? 'Закрыть' : 'Открыть' }}</button>
-  <button v-if="wasRead" class="btn danger" @click="$emit('unread-click', id)">Отметить непрочитанной</button>
-  <div v-if="isOpenLocal">
+  <app-button color="btn" @button-click="open">{{ isOpen ? 'Закрыть' : 'Открыть' }}</app-button>
+
+  <app-button v-if="wasRead" color="btn danger" @button-click="$emit('unread-click', id)">Отметить непрочитанной</app-button>
+  <div v-if="isOpen">
     <hr />
     <p>
       Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt nisi nulla iusto? Ea quia blanditiis amet veritatis, maxime facere voluptatibus quidem illo nam aspernatur, inventore praesentium dolores molestiae, consequatur corporis.
     </p>
-    <button v-if="!wasRead" class="btn primary" @click="read">Читать новость</button>
+    <app-button v-if="!wasRead" color="btn primary" @button-click="read">Читать новость</app-button>
   </div>
+  <hr />
+  <app-news-list v-if="isOpen"></app-news-list>
 </template>
 
 <script>
+import AppButton from '@/components/AppButton'
+import AppNewsList from '@/components/AppNewsList'
+
 export default {
   props: {
     title: String,
@@ -33,22 +39,20 @@ export default {
   },
   data () {
     return {
-      isOpenLocal: this.isOpen
     }
   },
   methods: {
     open () {
-      this.isOpenLocal = !this.isOpenLocal
-      if (this.isOpenLocal) {
-        this.$emit('rate-click')
-      }
+      this.$emit('rate-click', this.id)
     },
     read () {
-      if (this.isOpenLocal) {
+      if (this.isOpen) {
         this.$emit('read-click', this.id)
-        this.isOpenLocal = !this.isOpenLocal
       }
     }
+  },
+  components: {
+    AppButton, AppNewsList
   }
 }
 </script>

@@ -1,65 +1,33 @@
 <template>
   <div class="container pt-1">
     <div class="card">
-      <h2>Новости {{ date }}</h2>
-      <span>Открыто {{ openRate }} раз | Прочитано {{ readRate }} раз</span>
-    </div>
-    <div class="card">
-      <NewsItem
-        v-for="item in news" :key="item.id"
-        :title="item.title"
-        :id="item.id"
-        :is-open="item['isOpen']"
-        :was-read="item['wasRead']"
-        @rate-click="rateChange"
-        @read-click="readChange"
-        @unread-click="unreadCange"
-      />
+      <h2>Динамические и асинхронные компоненты</h2>
+
+      <app-button color='btn' @button-click="active === 'one'">
+        One
+      </app-button>
+      <app-button color="btn" @button-click="active === 'two'">
+        Two
+      </app-button>
     </div>
   </div>
 </template>
 
 <script>
-import NewsItem from '@/components/NewsItem'
+import AppButton from '@/components/AppButton'
 
 export default {
   data () {
     return {
-      date: new Date().toLocaleDateString(),
-      news: [
-        { id: 1, title: 'Джо победил в США', isOpen: false, wasRead: false },
-        { id: 2, title: 'Vue набирает обороты', isOpen: false, wasRead: false }
-      ],
-      openRate: 0,
-      readRate: 0
+      active: 'one'
     }
   },
   components: {
-    NewsItem
-  },
-  methods: {
-    rateChange () {
-      this.openRate++
-    },
-    readChange (id) {
-      this.readRate++
-      this.news[id - 1].wasRead = true
-    },
-    unreadCange (id) {
-      this.readRate--
-      this.news[id - 1].wasRead = false
-    }
+    AppButton
   }
 }
 </script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style scoped>
+
 </style>
